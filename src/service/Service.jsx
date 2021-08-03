@@ -20,23 +20,3 @@ export const request = (url) => {
     .then((result) => result)
     .catch((error) => console.log("error", error));
 };
-
-/*export const getRequest = async (url, header) => {
-  let authorize;
-  if (!!localStorage.getItem("access_token")) {
-    authorize = {
-      Authorization: `Bearer ${localStorage.getItem("access_token")}`,
-    };
-  }
-  const data = Axios.get(config.endpoint + url, {
-    headers: authorize,
-  })
-    .then((res) => {
-      return res;
-    })
-    .catch((err) => {
-      let validErr = err.response ? err.response : err;
-      errorHandler(validErr, url);
-    });
-  return data;
-};*/
