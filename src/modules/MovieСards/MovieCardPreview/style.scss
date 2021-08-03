@@ -1,0 +1,51 @@
+.item-preview {
+  position: relative;
+  border-radius: 6px;
+  overflow: hidden;
+  cursor: pointer;
+  box-shadow: 10px 10px 20px #cecece;
+
+  &:hover {
+    box-shadow: 10px 10px 20px #797979;
+  }
+
+  .preview-text {
+    padding: 20px;
+
+    h3 {
+      margin: 0 0 10px;
+    }
+  }
+
+  .preview-date {
+    color: #999;
+    font-size: 12px;
+  }
+
+  .preview-footer {
+    display: flex;
+  }
+
+  h1 {
+    margin-top: 0;
+    line-height: 20px;
+  }
+
+  .img {
+    height: 360px;
+
+    img {
+      width: 100%; // 1-я картинка не такой пропорции пришлось немного растянуть все
+      height: 100%;
+    }
+  }
+
+  .wrapper-item {
+    width: 75%;
+    padding: 0 30px;
+  }
+}
+
+
+
+
