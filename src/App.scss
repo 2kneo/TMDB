@@ -1,0 +1,28 @@
+.App {
+  margin: 50px auto;
+  max-width: 1200px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+h1, h2, h3, h4, h5, h6, p {
+  margin-top: 0;
+}
+
+.btn {
+  font-size: 14px;
+  padding: 7px 15px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  border-radius: 6px;
+  &:hover {
+    color: #fff;
+    background-color: #042541;
+  }
+}
+
+
