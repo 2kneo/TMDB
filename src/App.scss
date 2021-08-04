@@ -1,5 +1,5 @@
 .App {
-  margin: 50px auto;
+  margin: 0 auto;
   max-width: 1200px;
 }
 
@@ -7,6 +7,7 @@
   margin: 0;
   padding: 0;
   border: none;
+  box-sizing: border-box;
 }
 
 h1, h2, h3, h4, h5, h6, p {
@@ -14,6 +15,7 @@ h1, h2, h3, h4, h5, h6, p {
 }
 
 .btn {
+  display: inline-block;
   font-size: 14px;
   padding: 7px 15px;
   border: 1px solid #ccc;

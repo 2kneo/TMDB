@@ -1,6 +1,10 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 import MovieCards from "../../modules/MovieСards/MovieCards";
-import { appReducer, initialState } from "../../contextReduser/AppReduser";
+import {
+  appReducer,
+  initialState,
+  LANGUAGE,
+} from "../../contextReduser/AppReduser";
 import MovieCardItem from "../../modules/MovieСards/MovieCardItem/MovieCardItem";
 import NotFound from "../NotFound";
 import { useRoutes } from "hookrouter";
@@ -10,6 +14,12 @@ export const AppContext = createContext({});
 const Home = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const value = { state, dispatch };
+
+  useEffect(() => {
+    if (!localStorage.getItem("language")) {
+      localStorage.setItem("language", "ru");
+    }
+  }, []);
 
   const routes = {
     "/": () => <MovieCards />,

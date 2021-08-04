@@ -1,0 +1,32 @@
+$radius: 4px;
+
+.wrapper-language {
+  float: right;
+
+  button {
+    padding: 10px 15px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    font-size: 12px;
+    color: #ccc;
+    cursor: pointer;
+
+    &.active {
+      background-color: red;
+      color: #000;
+    }
+
+    &:hover {
+      color: #000;
+    }
+
+    &:first-child {
+      border-radius: $radius 0 0 $radius;
+    }
+
+    &:last-child {
+      border-left: 0;
+      border-radius: 0 $radius $radius 0;
+    }
+  }
+}
