@@ -1,9 +1,7 @@
-import React, { useEffect, useReducer, useState } from "react";
+import React, { useEffect, useState } from "react";
 import "./style.scss";
-import { appReducer, initialState } from "../../contextReduser/AppReduser";
 
 const Language = ({ setReload }) => {
-  const [state, dispatch] = useReducer(appReducer, initialState);
   const [update, setUpdate] = useState(false);
   const [listLanguage, setListLanguage] = useState({
     ru: {
@@ -54,7 +52,6 @@ const Language = ({ setReload }) => {
 
     setUpdate((e) => !e);
     setReload((el) => !el);
-    console.log("1");
   };
 
   const addLanguage = () => {
