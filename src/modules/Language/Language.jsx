@@ -54,6 +54,7 @@ const Language = ({ setReload }) => {
 
     setUpdate((e) => !e);
     setReload((el) => !el);
+    console.log("1");
   };
 
   const addLanguage = () => {
