@@ -10,11 +10,14 @@ import {
 import "./style.scss";
 import { request } from "../../service/Service";
 import Loader from "../Loader/Loader";
+import Search from "../Search/Search";
+import Language from "../Language/Language";
 
 const MovieCards = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const [total, setTotal] = useState(null);
   const [data, setData] = useState(null);
+  const [reload, setReload] = useState(false);
   const [testCurrent, setTestCurrent] = useState(1);
 
   useEffect(() => {
@@ -22,7 +25,7 @@ const MovieCards = () => {
       type: SHOW_LOADER,
       payload: true,
     });
-    request("/top_rated")
+    request("/movie/top_rated")
       .then((res) => {
         dispatch({
           type: SHOW_LOADER,
@@ -38,7 +41,7 @@ const MovieCards = () => {
           payload: true,
         });
       });
-  }, []);
+  }, [reload]);
 
   const onChangePagination = (current) => {
     setTestCurrent(current);
@@ -85,6 +88,10 @@ const MovieCards = () => {
   return (
     <>
       {state.showLoader ? <Loader /> : null}
+      <div className="header">
+        <Search />
+        <Language setReload={setReload} />
+      </div>
       <MovieCardPreview data={data} />
       {total && (
         <Pagination

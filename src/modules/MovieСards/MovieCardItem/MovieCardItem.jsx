@@ -19,7 +19,7 @@ const MovieCardItem = ({ id }) => {
       type: SHOW_LOADER,
       payload: true,
     });
-    request(`/${id}`)
+    request(`/movie/${id}`)
       .then((res) => {
         setData(res);
         console.log("res.data", res);
@@ -44,18 +44,21 @@ const MovieCardItem = ({ id }) => {
   return (
     <div>
       {state.showLoader ? <Loader /> : null}
-      {data && (
-        <>
+
+      <div className="wrapper-item">
+        <div className="header-item">
           <span className="btn" onClick={back}>
             Вернутся назад
           </span>
-          <div className="wrapper-item">
+        </div>
+        {data && (
+          <div className="item">
             <div className="img">
               <img src={`${defaultUrlImg}${data.poster_path}`} alt="" />
             </div>
           </div>
-        </>
-      )}
+        )}
+      </div>
     </div>
   );
 };
