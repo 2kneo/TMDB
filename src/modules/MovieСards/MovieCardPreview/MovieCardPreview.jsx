@@ -4,10 +4,11 @@ import moment from "moment";
 import Rating from "../../Rating/Rating";
 import { navigate } from "hookrouter";
 import "./style.scss";
+import defaultImg from "./../../../assets/noimage.jpg";
 
 const MovieCardPreview = ({ data }) => {
   const addItem = () => {
-    if (!data) return false;
+    if (!data.length) return false;
 
     return data.map((e) => {
       return (
@@ -17,7 +18,14 @@ const MovieCardPreview = ({ data }) => {
           onClick={() => navigate(`/card/${e.id}`, false)}
         >
           <div className="img">
-            <img src={`${defaultUrlImg}${e?.poster_path}`} alt="" />
+            <img
+              src={`${
+                e.hasOwnProperty("poster_path")
+                  ? defaultUrlImg + e.poster_path
+                  : defaultImg
+              }`}
+              alt=""
+            />
           </div>
           <div className="preview-text">
             <h3>{e?.title}</h3>

@@ -7,7 +7,6 @@ export const initialState = {
 };
 
 export const appReducer = (state, action) => {
-  // eslint-disable-next-line
   switch (action.type) {
     case SHOW_LOADER:
       return { ...state, showLoader: action.payload };

@@ -9,6 +9,7 @@ import Loader from "../../Loader/Loader";
 import { navigate } from "hookrouter";
 import { defaultUrlImg } from "../../../config";
 import "./style.scss";
+import defaultImg from "../../../assets/noimage.jpg";
 
 const MovieCardItem = ({ id }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
@@ -54,7 +55,14 @@ const MovieCardItem = ({ id }) => {
         {data && (
           <div className="item">
             <div className="img">
-              <img src={`${defaultUrlImg}${data.poster_path}`} alt="" />
+              <img
+                src={`${
+                  data.hasOwnProperty("poster_path")
+                    ? defaultUrlImg + data.poster_path
+                    : defaultImg
+                }`}
+                alt=""
+              />
             </div>
           </div>
         )}

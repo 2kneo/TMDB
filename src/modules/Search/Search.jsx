@@ -1,16 +1,21 @@
-import React, { useReducer, useState } from "react";
-import "./style.scss";
+import React, { useEffect, useState } from "react";
 import { request } from "../../service/Service";
 import { navigate } from "hookrouter";
 import { ReactComponent as Close } from "./../../assets/close.svg";
-import { appReducer, initialState } from "../../contextReduser/AppReduser";
 import { placeholderLanguage } from "./config";
+import "./style.scss";
+import { parseUrl } from "../ParseURL/ParseURL";
 
-const Search = () => {
-  const [state, dispatch] = useReducer(appReducer, initialState);
+const Search = ({ language, searchData, setReload }) => {
   const [value, setValue] = useState("");
   const [list, setList] = useState(null);
   const [visibleClose, setVisibleClose] = useState(false);
+
+  useEffect(() => {
+    setValue(parseUrl("query", "&"));
+    setVisibleClose(true);
+  }, []);
+
   const handleList = () => {
     return list.map((e) => {
       return (
@@ -23,12 +28,19 @@ const Search = () => {
 
   const onSearch = (e) => {
     const { value } = e.target;
+
     setValue(value);
     value.length ? setVisibleClose(true) : setVisibleClose(false);
 
-    if (value.length > 2) {
+    if (value.length > 1) {
       request(`/search/movie?query=${value}`).then((res) => {
         setList(res.results);
+      });
+    } else if (value.length < 1) {
+      navigate(`/`, false);
+      request(`/movie/top_rated`).then((res) => {
+        searchData(res, value);
+        setList(null);
       });
     }
   };
@@ -37,6 +49,20 @@ const Search = () => {
     setValue("");
     setList(null);
     setVisibleClose(false);
+    setReload((el) => !el);
+    navigate(`/`, false);
+  };
+
+  const searchDoctor = (e) => {
+    if (e.key === "Enter") {
+      if (value) {
+        navigate(`/search/&query=${value}`, false);
+        request(`/search/movie?query=${value}`).then((res) => {
+          searchData(res, value);
+          setList(null);
+        });
+      }
+    }
   };
 
   return (
@@ -47,7 +73,8 @@ const Search = () => {
             type="text"
             value={value}
             onChange={onSearch}
-            placeholder={placeholderLanguage[state.language]}
+            onKeyUp={searchDoctor}
+            placeholder={placeholderLanguage[language]}
           />
           {visibleClose && (
             <div className="close" onClick={handleClose}>

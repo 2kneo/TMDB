@@ -23,6 +23,8 @@ const Home = () => {
 
   const routes = {
     "/": () => <MovieCards />,
+    "/:id": ({ id }) => <MovieCards />,
+    "/search/:id": ({ id }) => <MovieCards id={id} />,
     "/card/:id": ({ id }) => <MovieCardItem id={id} />,
   };
   const routeResult = useRoutes(routes);
