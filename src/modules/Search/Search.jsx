@@ -6,7 +6,7 @@ import { placeholderLanguage } from "./config";
 import "./style.scss";
 import { parseUrl } from "../ParseURL/ParseURL";
 
-const Search = ({ language, searchData, setReload }) => {
+const Search = ({ language, searchData, setReload, setCurrent }) => {
   const [value, setValue] = useState("");
   const [list, setList] = useState(null);
   const [visibleClose, setVisibleClose] = useState(false);
@@ -39,7 +39,7 @@ const Search = ({ language, searchData, setReload }) => {
     } else if (value.length < 1) {
       navigate(`/`, false);
       request(`/movie/top_rated`).then((res) => {
-        searchData(res, value);
+        searchData(res);
         setList(null);
       });
     }
@@ -56,9 +56,10 @@ const Search = ({ language, searchData, setReload }) => {
   const searchDoctor = (e) => {
     if (e.key === "Enter") {
       if (value) {
-        navigate(`/search/&query=${value}`, false);
+        navigate(`/&query=${value}`, false);
         request(`/search/movie?query=${value}`).then((res) => {
           searchData(res, value);
+          setCurrent(1);
           setList(null);
         });
       }

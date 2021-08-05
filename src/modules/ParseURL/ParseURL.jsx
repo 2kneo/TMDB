@@ -1,4 +1,4 @@
-export const parseUrl = (el, separator) => {
+export const parseUrl = (el, separator = "/") => {
   const urlParamsDefault = new URLSearchParams(
     window.location.pathname.split(separator)[1]
   );
