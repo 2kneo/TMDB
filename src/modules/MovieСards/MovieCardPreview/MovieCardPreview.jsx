@@ -1,16 +1,13 @@
-import React, { useReducer } from "react";
-import { defaultUrlImg, language } from "../../../config";
+import React from "react";
+import { defaultUrlImg, languageList } from "../../../config";
 import moment from "moment";
 import Rating from "../../Rating/Rating";
 import { navigate } from "hookrouter";
 import "./style.scss";
 import defaultImg from "./../../../assets/noimage.jpg";
 import { parseUrl } from "../../ParseURL/ParseURL";
-import { appReducer, initialState } from "../../../contextReduser/AppReduser";
 
-const MovieCardPreview = ({ data, language123 }) => {
-  const [state, dispatch] = useReducer(appReducer, initialState);
-
+const MovieCardPreview = ({ data, language }) => {
   const handlePreviewCard = (e) => {
     let url = `/card/${e.id}`;
     const parseQuery = parseUrl("query", "&");
@@ -27,6 +24,18 @@ const MovieCardPreview = ({ data, language123 }) => {
     navigate(url, false);
   };
 
+  const imgUrl = (e) => {
+    if (e.hasOwnProperty("poster_path") && e.poster_path) {
+      return defaultUrlImg + e.poster_path;
+    } else {
+      return defaultImg;
+    }
+  };
+
+  const message = () => {
+    return languageList[language].a1;
+  };
+
   const addItem = () => {
     return data.map((e) => {
       return (
@@ -36,32 +45,22 @@ const MovieCardPreview = ({ data, language123 }) => {
           onClick={() => handlePreviewCard(e)}
         >
           <div className="img">
-            <img
-              src={`${
-                e.hasOwnProperty("poster_path")
-                  ? defaultUrlImg + e.poster_path
-                  : defaultImg
-              }`}
-              alt=""
-            />
+            <img src={imgUrl(e)} alt="" />
           </div>
           <div className="preview-text">
-            <h3>{e?.title}</h3>
+            <h3>{e.title}</h3>
             <div className="preview-footer">
-              <Rating rating={e?.vote_average} />
+              <Rating rating={e.vote_average} />
               <span className="preview-date">
-                {moment(e?.release_date).format("DD MMMM YYYY")}
+                {moment(e.release_date)
+                  .locale(language === "ru" ? "ru" : "en-ca")
+                  .format("DD MMMM YYYY")}
               </span>
             </div>
           </div>
         </div>
       );
     });
-  };
-
-  const message = () => {
-    console.log("state.language", language);
-    return language.noData[language123];
   };
 
   return (
