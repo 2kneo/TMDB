@@ -10,6 +10,7 @@ import { navigate } from "hookrouter";
 import { defaultUrlImg } from "../../../config";
 import "./style.scss";
 import defaultImg from "../../../assets/noimage.jpg";
+import { parseUrl } from "../../ParseURL/ParseURL";
 
 const MovieCardItem = ({ id }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
@@ -38,7 +39,24 @@ const MovieCardItem = ({ id }) => {
   }, [id]);
 
   const back = () => {
-    navigate("/", false);
+    let url = "";
+    const patch = window.location.pathname;
+    const patchPage = patch.split("page=")[1];
+    const parseQuery = parseUrl("query", "&");
+    const parsePage = parseUrl("page", "&");
+
+    if (parseQuery) {
+      url += `&query=${parseQuery}`;
+      if (patchPage) {
+        url += `&page=${patchPage}`;
+      }
+    }
+
+    if (parsePage) {
+      url += `&page=${parsePage}`;
+    }
+
+    navigate(`/${url}`, false);
   };
 
   return (
