@@ -12,12 +12,13 @@ $radius: 4px;
     cursor: pointer;
 
     &.active {
-      background-color: red;
-      color: #000;
+      background-color: #19980a;
+      color: #fff;
     }
 
     &:hover {
-      color: #000;
+      background-color: rgba(25, 152, 10, 0.66);
+      color: #fff;
     }
 
     &:first-child {

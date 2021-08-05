@@ -29,15 +29,15 @@ const Language = ({ setReload }) => {
     const { name } = e.target;
     const activeStorage = localStorage.getItem("language");
 
-    if (activeStorage && activeStorage === name.toLowerCase()) {
+    if (activeStorage && activeStorage === name) {
       return false;
     }
 
-    localStorage.setItem("language", name.toLowerCase());
+    localStorage.setItem("language", name);
     const objKeys = Object.keys(listLanguage);
 
     objKeys.forEach((e) => {
-      if (name.toLowerCase() === e) {
+      if (name === e) {
         setListLanguage({
           ...listLanguage,
           [e]: {
@@ -51,7 +51,7 @@ const Language = ({ setReload }) => {
     });
 
     setUpdate((e) => !e);
-    setReload((el) => !el);
+    setReload(name);
   };
 
   const addLanguage = () => {
@@ -62,7 +62,7 @@ const Language = ({ setReload }) => {
         <button
           key={_this.id}
           className={_this.active ? "active" : ""}
-          name={_this.title}
+          name={_this.title.toLowerCase()}
           onClick={handleLanguage}
         >
           {_this.title}

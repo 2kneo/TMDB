@@ -21,8 +21,6 @@ export const request = (url) => {
     redirect: "follow",
   };
 
-  console.log("language", language);
-
   return fetch(`${defaultURL}${url}${language}`, requestOptions)
     .then((response) => response.json())
     .then((result) => result)
