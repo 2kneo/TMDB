@@ -122,7 +122,7 @@ const MovieCards = () => {
         <Language setReload={reloadSearch} />
       </div>
 
-      <MovieCardPreview data={data} />
+      <MovieCardPreview data={data} language123={state.language} />
 
       {total ? (
         <div className="wrapper-pagination">

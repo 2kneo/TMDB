@@ -1,13 +1,16 @@
-import React from "react";
-import { defaultUrlImg } from "../../../config";
+import React, { useReducer } from "react";
+import { defaultUrlImg, language } from "../../../config";
 import moment from "moment";
 import Rating from "../../Rating/Rating";
 import { navigate } from "hookrouter";
 import "./style.scss";
 import defaultImg from "./../../../assets/noimage.jpg";
 import { parseUrl } from "../../ParseURL/ParseURL";
+import { appReducer, initialState } from "../../../contextReduser/AppReduser";
 
-const MovieCardPreview = ({ data }) => {
+const MovieCardPreview = ({ data, language123 }) => {
+  const [state, dispatch] = useReducer(appReducer, initialState);
+
   const handlePreviewCard = (e) => {
     let url = `/card/${e.id}`;
     const parseQuery = parseUrl("query", "&");
@@ -56,12 +59,17 @@ const MovieCardPreview = ({ data }) => {
     });
   };
 
+  const message = () => {
+    console.log("state.language", language);
+    return language.noData[language123];
+  };
+
   return (
     <>
       {data && data.length ? (
         <div className="wrapper-movie">{addItem()}</div>
       ) : (
-        "Нет данных"
+        message()
       )}
     </>
   );
