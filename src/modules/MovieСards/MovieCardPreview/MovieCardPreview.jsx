@@ -5,17 +5,32 @@ import Rating from "../../Rating/Rating";
 import { navigate } from "hookrouter";
 import "./style.scss";
 import defaultImg from "./../../../assets/noimage.jpg";
+import { parseUrl } from "../../ParseURL/ParseURL";
 
 const MovieCardPreview = ({ data }) => {
-  const addItem = () => {
-    if (!data.length) return false;
+  const handlePreviewCard = (e) => {
+    let url = `/card/${e.id}`;
+    const parseQuery = parseUrl("query", "&");
+    const parsePage = parseUrl("page", "/");
 
+    if (parseQuery) {
+      url += `&query=${parseQuery}`;
+    }
+
+    if (parsePage) {
+      url += `&page=${parsePage}`;
+    }
+
+    navigate(url, false);
+  };
+
+  const addItem = () => {
     return data.map((e) => {
       return (
         <div
           className="item-preview"
           key={e.id}
-          onClick={() => navigate(`/card/${e.id}`, false)}
+          onClick={() => handlePreviewCard(e)}
         >
           <div className="img">
             <img
@@ -41,7 +56,15 @@ const MovieCardPreview = ({ data }) => {
     });
   };
 
-  return <div className="wrapper-movie">{addItem()}</div>;
+  return (
+    <>
+      {data && data.length ? (
+        <div className="wrapper-movie">{addItem()}</div>
+      ) : (
+        "Нет данных"
+      )}
+    </>
+  );
 };
 
 export default MovieCardPreview;

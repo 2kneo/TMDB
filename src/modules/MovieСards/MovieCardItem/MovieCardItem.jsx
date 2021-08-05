@@ -23,7 +23,6 @@ const MovieCardItem = ({ id }) => {
     request(`/movie/${id}`)
       .then((res) => {
         setData(res);
-        console.log("res.data", res);
         dispatch({
           type: SHOW_LOADER,
           payload: false,
@@ -36,7 +35,7 @@ const MovieCardItem = ({ id }) => {
           payload: false,
         });
       });
-  }, []);
+  }, [id]);
 
   const back = () => {
     navigate("/", false);

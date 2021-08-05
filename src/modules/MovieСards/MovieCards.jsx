@@ -20,11 +20,11 @@ const MovieCards = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const [total, setTotal] = useState(null);
   const [data, setData] = useState([]);
-  const [valueSearch, setValueSearch] = useState(null);
+  /*  const [valueSearch, setValueSearch] = useState(null);*/
   const [reload, setReload] = useState(false);
   const [current, setCurrent] = useState(1);
 
-  const requestFn = (page) => {
+  const fnRequest = (page) => {
     dispatch({
       type: SHOW_LOADER,
       payload: true,
@@ -33,12 +33,6 @@ const MovieCards = () => {
       .then((res) => {
         setData(res.results);
         setTotal(res.total_pages);
-        if (res.page === 1) {
-          navigate(`/`, false);
-        } else {
-          navigate(`/&page=${res.page}`, false);
-        }
-
         dispatch({
           type: SHOW_LOADER,
           payload: false,
@@ -53,37 +47,28 @@ const MovieCards = () => {
       });
   };
 
-  const urlPars = (separator, flag, current) => {
-    let url = "";
-    let urlParamsDefault = new URLSearchParams(
-      window.location.pathname.split(separator)[1]
-    );
-    let paramsDefault = Object.fromEntries(urlParamsDefault.entries());
-    const queryData = flag ? paramsDefault["query"] : valueSearch;
-
-    if (paramsDefault["query"]) {
-      url += `/search/movie/?page=${current}&query=${queryData}`;
-    } else {
-      url += `/movie/top_rated?page=${current}`;
-    }
-
-    return url;
-  };
-
   useEffect(() => {
-    const defaultPage = parseUrl("page", "&");
-    if (defaultPage) {
-      requestFn(urlPars("&", true, +defaultPage));
-      setCurrent(+defaultPage);
-    } else {
-      requestFn(urlPars("&", true, current));
-    }
-  }, [reload]);
+    let url;
+    const parseQuery = parseUrl("query", "&");
+    const parsePage = parseUrl("page", "/");
 
-  const onChangePagination = (current) => {
-    setCurrent(current);
-    requestFn(urlPars("&", true, current));
-  };
+    if (parseQuery) {
+      if (parsePage) {
+        url = `/search/movie?query=${parseQuery}&page=${parsePage}`;
+        setCurrent(+parsePage);
+      } else {
+        url = `/search/movie?query=${parseQuery}`;
+      }
+    } else {
+      if (parsePage) {
+        url = `/movie/top_rated?page=${parsePage}`;
+        setCurrent(+parsePage);
+      } else {
+        url = "/movie/top_rated";
+      }
+    }
+    fnRequest(url);
+  }, [reload]);
 
   const reloadSearch = (name) => {
     setReload((e) => !e);
@@ -95,10 +80,33 @@ const MovieCards = () => {
     });
   };
 
-  const searchData = (data, value) => {
+  const searchData = (data) => {
     setData(data.results);
-    setValueSearch(value);
+    /*    setValueSearch(value);*/
     setTotal(data.total_pages);
+  };
+
+  const onChangePagination = (current) => {
+    let url = "";
+    let navigateUrl = "";
+    const parseQuery = parseUrl("query", "&");
+
+    if (parseQuery) {
+      url += `/search/movie?query=${parseQuery}&page=${current}`;
+      navigateUrl += `&query=${parseQuery}&page=${current}`;
+      setCurrent(current);
+    } else {
+      if (current === 1) {
+        url += `/movie/top_rated?page=${current}`;
+      } else {
+        url += `/movie/top_rated?page=${current}`;
+        navigateUrl += `&page=${current}`;
+      }
+      setCurrent(current);
+    }
+
+    fnRequest(url);
+    navigate(`/${navigateUrl}`);
   };
 
   return (
@@ -106,6 +114,7 @@ const MovieCards = () => {
       {state.showLoader ? <Loader /> : null}
       <div className="header">
         <Search
+          setCurrent={setCurrent}
           setReload={reloadSearch}
           searchData={searchData}
           language={state.language}
@@ -120,7 +129,7 @@ const MovieCards = () => {
           <Pagination
             showSizeChanger
             className="text-center mt-3"
-            defaultPageSize={1}
+            defaultPageSize={10}
             defaultCurrent={1}
             current={current}
             onChange={onChangePagination}
