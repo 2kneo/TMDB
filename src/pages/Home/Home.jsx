@@ -1,10 +1,6 @@
 import React, { createContext, useEffect, useReducer } from "react";
 import MovieCards from "../../modules/MovieСards/MovieCards";
-import {
-  appReducer,
-  initialState,
-  LANGUAGE,
-} from "../../contextReduser/AppReduser";
+import { appReducer, initialState } from "../../contextReduser/AppReduser";
 import MovieCardItem from "../../modules/MovieСards/MovieCardItem/MovieCardItem";
 import NotFound from "../NotFound";
 import { useRoutes } from "hookrouter";
@@ -23,7 +19,7 @@ const Home = () => {
 
   const routes = {
     "/": () => <MovieCards />,
-    "/:id": ({ id }) => <MovieCards />,
+    "/:id": ({ id }) => <MovieCards id={id} />,
     "/search/:id": ({ id }) => <MovieCards id={id} />,
     "/card/:id": ({ id }) => <MovieCardItem id={id} />,
   };
