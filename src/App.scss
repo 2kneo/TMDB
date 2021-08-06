@@ -20,14 +20,40 @@ h1, h2, h3, h4, h5, h6, p {
 .btn {
   display: inline-block;
   font-size: 14px;
-  padding: 7px 15px;
+  padding: 9px 15px;
   border: 1px solid #ccc;
   cursor: pointer;
   border-radius: 6px;
+  vertical-align: middle;
+
   &:hover {
     color: #fff;
     background-color: #19980a;
   }
 }
 
+.col-80 {
+  flex: 80%;
+  align-items: end;
+  justify-content: end;
+}
 
+.col-50 {
+  flex: 50%;
+  align-items: end;
+  justify-content: end;
+}
+
+.col-20 {
+  flex: 20%;
+  align-items: end;
+  justify-content: end;
+}
+
+.p-15 {
+  padding: 0 15px;
+}
+
+.text-right {
+  text-align: right !important;
+}

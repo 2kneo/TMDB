@@ -16,6 +16,8 @@ import Search from "../Search/Search";
 import Language from "../Language/Language";
 import { navigate } from "hookrouter";
 import { parseUrl } from "../ParseURL/ParseURL";
+import { noData } from "../NoData/NoData";
+import { languageList } from "../../config";
 
 const MovieCards = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
@@ -32,12 +34,18 @@ const MovieCards = () => {
     });
     request(page)
       .then((res) => {
-        setData(res.results);
-        setTotal(res.total_pages);
         dispatch({
           type: SHOW_LOADER,
           payload: false,
         });
+        if (!res.hasOwnProperty("results")) {
+          navigate(`/not-found/&${res.errors.join(", ")}`, true);
+        }
+        setData(res.results);
+
+        if (!res.results.length) return false;
+
+        setTotal(res.total_pages);
       })
       .catch((err) => {
         console.log("err", err);
@@ -51,21 +59,23 @@ const MovieCards = () => {
   useEffect(() => {
     let url;
     const parseQuery = parseUrl("query", "&");
-    const parsePage = parseUrl("page", "/");
+    const parsePage = +parseUrl("page", "/");
+
+    if (typeof parsePage !== "number") return false;
 
     setLanguage(localStorage.getItem("language"));
 
     if (parseQuery) {
       if (parsePage) {
         url = `/search/movie?query=${parseQuery}&page=${parsePage}`;
-        setCurrent(+parsePage);
+        setCurrent(parsePage);
       } else {
         url = `/search/movie?query=${parseQuery}`;
       }
     } else {
       if (parsePage) {
         url = `/movie/top_rated?page=${parsePage}`;
-        setCurrent(+parsePage);
+        setCurrent(parsePage);
       } else {
         url = "/movie/top_rated";
       }
@@ -115,23 +125,44 @@ const MovieCards = () => {
     <>
       {state.showLoader ? <Loader /> : null}
       <div className="header">
-        <Search
-          setCurrent={setCurrent}
-          setReload={reloadSearch}
-          searchData={searchData}
-          language={language}
-        />
-        <Language setReload={reloadSearch} />
+        <div className="header-left col-80">
+          <Search
+            setCurrent={setCurrent}
+            setReload={reloadSearch}
+            searchData={searchData}
+            language={language}
+          />
+          {data && !data.length ? (
+            <button
+              className="btn"
+              onClick={() => {
+                reloadSearch();
+                navigate("/", true);
+              }}
+            >
+              {languageList[language].a13}
+            </button>
+          ) : (
+            ""
+          )}
+        </div>
+        <div className="col-20 text-right">
+          <Language setReload={reloadSearch} />
+        </div>
       </div>
 
-      <MovieCardPreview data={data} language={language} />
+      {data && data.length ? (
+        <MovieCardPreview data={data} language={language} />
+      ) : (
+        noData(language)
+      )}
 
       {total ? (
         <div className="wrapper-pagination">
           <Pagination
             showSizeChanger
             className="text-center mt-3"
-            defaultPageSize={10}
+            defaultPageSize={1}
             defaultCurrent={1}
             current={current}
             onChange={onChangePagination}

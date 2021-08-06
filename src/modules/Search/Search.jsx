@@ -6,6 +6,7 @@ import { ReactComponent as SearchIco } from "./../../assets/search.svg";
 import "./style.scss";
 import { parseUrl } from "../ParseURL/ParseURL";
 import { languageList } from "../../config";
+import { ParseURLSearch } from "../ParseURLSearch/ParseURLSearch";
 
 const Search = ({ searchData, setReload, setCurrent, language }) => {
   const [value, setValue] = useState("");
@@ -15,14 +16,20 @@ const Search = ({ searchData, setReload, setCurrent, language }) => {
   useEffect(() => {
     if (parseUrl("query", "&")) {
       setValue(parseUrl("query", "&"));
-      value && setVisibleClose(true);
+      setVisibleClose(true);
     }
   }, []);
 
   const handleList = () => {
     return list.map((e) => {
       return (
-        <li key={e.id} onClick={() => navigate(`/card/${e.id}`, false)}>
+        <li
+          key={e.id}
+          onClick={() => {
+            const url = ParseURLSearch();
+            navigate(`/card/${e.id}${url}`, false);
+          }}
+        >
           {e.title}
         </li>
       );
@@ -35,15 +42,15 @@ const Search = ({ searchData, setReload, setCurrent, language }) => {
     setValue(value);
     value.length ? setVisibleClose(true) : setVisibleClose(false);
 
-    if (value.length > 1) {
-      request(`/search/movie?query=${value}`).then((res) => {
-        setList(res.results);
-      });
-    } else if (value.length < 1) {
-      navigate(`/`, false);
+    if (value.length < 1) {
+      navigate(`/`, true);
       request(`/movie/top_rated`).then((res) => {
         searchData(res);
         setList(null);
+      });
+    } else {
+      request(`/search/movie?query=${value}`).then((res) => {
+        setList(res.results);
       });
     }
   };
@@ -53,11 +60,11 @@ const Search = ({ searchData, setReload, setCurrent, language }) => {
     setList(null);
     setVisibleClose(false);
     setReload((el) => !el);
-    navigate(`/`, false);
+    navigate(`/`, true);
   };
 
   const fnSearch = () => {
-    navigate(`/&query=${value}`, false);
+    navigate(`/&query=${value}`, true);
     request(`/search/movie?query=${value}`).then((res) => {
       searchData(res, value);
       setCurrent(1);
@@ -73,6 +80,12 @@ const Search = ({ searchData, setReload, setCurrent, language }) => {
     }
   };
 
+  const handleSearch = () => {
+    if (value) {
+      fnSearch();
+    }
+  };
+
   return (
     <>
       <div className="wrapper-search">
@@ -84,7 +97,7 @@ const Search = ({ searchData, setReload, setCurrent, language }) => {
             onKeyUp={searchDoctor}
             placeholder={languageList[language].a12}
           />
-          <button className="btn-search" onClick={fnSearch}>
+          <button className="btn-search" onClick={handleSearch}>
             <SearchIco />
           </button>
           {visibleClose && (
