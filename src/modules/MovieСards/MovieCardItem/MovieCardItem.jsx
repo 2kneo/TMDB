@@ -96,7 +96,7 @@ const MovieCardItem = ({ id }) => {
         description: data?.overview,
       },
     ];
-  }, [data, language]);
+  }, [data]);
 
   const description = () => {
     return listForm.map(({ id, title, description }) => {
