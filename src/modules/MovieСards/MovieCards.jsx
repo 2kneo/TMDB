@@ -119,7 +119,6 @@ const MovieCards = () => {
 
   return (
     <>
-      {state.showLoader ? <Loader /> : null}
       <div className="header">
         <div className="header-left col-80">
           <Search
@@ -147,7 +146,9 @@ const MovieCards = () => {
         </div>
       </div>
 
-      {data && data.length ? (
+      {state.showLoader ? (
+        <Loader />
+      ) : data && data.length ? (
         <MovieCardPreview data={data} language={language} />
       ) : (
         noData(language)

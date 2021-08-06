@@ -111,30 +111,28 @@ const MovieCardItem = ({ id }) => {
 
   return (
     <div>
-      {state.showLoader ? <Loader /> : null}
-
-      {
-        <div className="wrapper-item">
-          <div className="header-item">
-            <span className="btn" onClick={back}>
-              {languageList[language].a2}
-            </span>
-          </div>
-          {data && !data.hasOwnProperty("success") ? (
-            <>
-              <h1>{data.title}</h1>
-              <div className="item">
-                <div className="img">
-                  <img src={imgUrl()} alt="" />
-                </div>
-                <div className="text">{description()}</div>
-              </div>
-            </>
-          ) : (
-            noData(language)
-          )}
+      <div className="wrapper-item">
+        <div className="header-item">
+          <span className="btn" onClick={back}>
+            {languageList[language].a2}
+          </span>
         </div>
-      }
+        {state.showLoader ? (
+          <Loader />
+        ) : data && !data.hasOwnProperty("success") ? (
+          <>
+            <h1>{data.title}</h1>
+            <div className="item">
+              <div className="img">
+                <img src={imgUrl()} alt="" />
+              </div>
+              <div className="text">{description()}</div>
+            </div>
+          </>
+        ) : (
+          noData(language)
+        )}
+      </div>
     </div>
   );
 };
