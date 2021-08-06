@@ -22,7 +22,6 @@ const Home = () => {
     "/:id": ({ id }) => <MovieCards id={id} />,
     "/search/:id": ({ id }) => <MovieCards id={id} />,
     "/card/:id": ({ id }) => <MovieCardItem id={id} />,
-    "/not-found": () => <NotFound />,
   };
   const routeResult = useRoutes(routes);
 

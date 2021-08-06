@@ -48,7 +48,7 @@ const MovieCards = () => {
         setTotal(res.total_pages);
       })
       .catch((err) => {
-        console.log("err", err);
+        console.error("err", err);
         dispatch({
           type: SHOW_LOADER,
           payload: false,
@@ -108,12 +108,8 @@ const MovieCards = () => {
       navigateUrl += `&query=${parseQuery}&page=${current}`;
       setCurrent(current);
     } else {
-      if (current === 1) {
-        url += `/movie/top_rated?page=${current}`;
-      } else {
-        url += `/movie/top_rated?page=${current}`;
-        navigateUrl += `&page=${current}`;
-      }
+      if (current !== 1) navigateUrl += `&page=${current}`;
+      url += `/movie/top_rated?page=${current}`;
       setCurrent(current);
     }
 

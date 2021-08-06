@@ -36,7 +36,7 @@ const MovieCardItem = ({ id }) => {
         setData(res);
       })
       .catch((err) => {
-        console.log("err", err);
+        console.error("err", err);
         dispatch({
           type: SHOW_LOADER,
           payload: false,

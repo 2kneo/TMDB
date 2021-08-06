@@ -17,8 +17,8 @@
 
   .fof {
     display: inline-block;
-    width: 3px;
-    height: 40px;
+    width: 4px;
+    height: 62px;
     margin: 0 0 0 10px;
     vertical-align: middle;
     animation: type .5s alternate infinite;
@@ -34,9 +34,9 @@ a {
 
 @keyframes type {
   from {
-    box-shadow: inset -4px 0px 0px #888;
+    background-color:  #FC4F3D;
   }
   to {
-    box-shadow: inset -4px 0px 0px transparent;
+    background-color: transparent;
   }
 }

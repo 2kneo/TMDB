@@ -21,16 +21,16 @@ const Search = ({ searchData, setReload, setCurrent, language }) => {
   }, []);
 
   const handleList = () => {
-    return list.map((e) => {
+    return list.map(({ id, title }) => {
       return (
         <li
-          key={e.id}
+          key={id}
           onClick={() => {
             const url = ParseURLSearch();
-            navigate(`/card/${e.id}${url}`, false);
+            navigate(`/card/${id}${url}`, false);
           }}
         >
-          {e.title}
+          {title}
         </li>
       );
     });
@@ -40,18 +40,23 @@ const Search = ({ searchData, setReload, setCurrent, language }) => {
     const { value } = e.target;
 
     setValue(value);
+
     value.length ? setVisibleClose(true) : setVisibleClose(false);
 
     if (value.length < 1) {
       navigate(`/`, true);
-      request(`/movie/top_rated`).then((res) => {
-        searchData(res);
-        setList(null);
-      });
+      request(`/movie/top_rated`)
+        .then((res) => {
+          searchData(res);
+          setList(null);
+        })
+        .catch((err) => console.error("err", err));
     } else {
-      request(`/search/movie?query=${value}`).then((res) => {
-        setList(res.results);
-      });
+      request(`/search/movie?query=${value}`)
+        .then((res) => {
+          setList(res.results);
+        })
+        .catch((err) => console.error("err", err));
     }
   };
 
