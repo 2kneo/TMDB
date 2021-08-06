@@ -57,9 +57,11 @@ const MovieCards = () => {
   };
 
   useEffect(() => {
-    let url;
+    window.scrollTo(0, 0);
+
     const parseQuery = parseUrl("query", "&");
     const parsePage = +parseUrl("page", "/");
+    let url;
 
     if (!isNaN(parsePage) && typeof parsePage !== "number") return false;
 
