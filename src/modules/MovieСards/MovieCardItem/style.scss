@@ -5,7 +5,51 @@
     border-bottom: 1px solid #ccc;
   }
 
+  h1 {
+    margin: 0 0 35px;
+  }
+
   .item {
+    display: flex;
     margin: 20px 0;
+
+    .img {
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 0 30%;
+      flex: 0 0 30%;
+      max-width: 30%;
+      img {
+        width: 100%;
+      }
+    }
+    .text {
+      -webkit-box-flex: 0;
+      -webkit-flex: 0 0 70%;
+      flex: 0 0 70%;
+      max-width: 70%;
+      margin-top: -6px;
+    }
+
+    .text {
+      padding: 0 0 0 50px;
+      p {
+        color: #525252;
+        margin: 0 0 20px;
+        font-size: 14px;
+      }
+
+      strong {
+        display: block;
+        color: #000;
+        font-size: 16px;
+      }
+    }
+
+
+    .company {
+      img {
+        width: 100px;
+      }
+    }
   }
 }

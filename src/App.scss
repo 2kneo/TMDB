@@ -2,6 +2,7 @@
 
 .App {
   margin: 0 auto;
+  padding: 0 15px;
   max-width: 1200px;
 }
 
@@ -25,7 +26,7 @@ h1, h2, h3, h4, h5, h6, p {
   border-radius: 6px;
   &:hover {
     color: #fff;
-    background-color: #042541;
+    background-color: #19980a;
   }
 }
 

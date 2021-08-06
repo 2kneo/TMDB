@@ -1,11 +1,11 @@
 import React from "react";
-import { defaultUrlImg, languageList } from "../../../config";
-import moment from "moment";
 import Rating from "../../Rating/Rating";
-import { navigate } from "hookrouter";
-import "./style.scss";
-import defaultImg from "./../../../assets/noimage.jpg";
 import { parseUrl } from "../../ParseURL/ParseURL";
+import { momentDate } from "../../MomentDate/MomentDate";
+import { navigate } from "hookrouter";
+import defaultImg from "./../../../assets/noimage.jpg";
+import { defaultUrlImg, languageList } from "../../../config";
+import "./style.scss";
 
 const MovieCardPreview = ({ data, language }) => {
   const handlePreviewCard = (e) => {
@@ -50,11 +50,11 @@ const MovieCardPreview = ({ data, language }) => {
           <div className="preview-text">
             <h3>{e.title}</h3>
             <div className="preview-footer">
-              <Rating rating={e.vote_average} />
-              <span className="preview-date">
-                {moment(e.release_date)
-                  .locale(language === "ru" ? "ru" : "en-ca")
-                  .format("DD MMMM YYYY")}
+              <div className="col-50">
+                <Rating rating={e.vote_average} />
+              </div>
+              <span className="col-50 preview-date">
+                {momentDate(e, language)}
               </span>
             </div>
           </div>

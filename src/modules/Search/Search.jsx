@@ -3,9 +3,9 @@ import { request } from "../../service/Service";
 import { navigate } from "hookrouter";
 import { ReactComponent as CloseIco } from "./../../assets/close.svg";
 import { ReactComponent as SearchIco } from "./../../assets/search.svg";
-import { placeholderLanguage } from "./config";
 import "./style.scss";
 import { parseUrl } from "../ParseURL/ParseURL";
+import { languageList } from "../../config";
 
 const Search = ({ searchData, setReload, setCurrent, language }) => {
   const [value, setValue] = useState("");
@@ -13,8 +13,10 @@ const Search = ({ searchData, setReload, setCurrent, language }) => {
   const [visibleClose, setVisibleClose] = useState(false);
 
   useEffect(() => {
-    setValue(parseUrl("query", "&") || "");
-    setVisibleClose(true);
+    if (parseUrl("query", "&")) {
+      setValue(parseUrl("query", "&"));
+      value && setVisibleClose(true);
+    }
   }, []);
 
   const handleList = () => {
@@ -54,15 +56,19 @@ const Search = ({ searchData, setReload, setCurrent, language }) => {
     navigate(`/`, false);
   };
 
+  const fnSearch = () => {
+    navigate(`/&query=${value}`, false);
+    request(`/search/movie?query=${value}`).then((res) => {
+      searchData(res, value);
+      setCurrent(1);
+      setList(null);
+    });
+  };
+
   const searchDoctor = (e) => {
     if (e.key === "Enter") {
       if (value) {
-        navigate(`/&query=${value}`, false);
-        request(`/search/movie?query=${value}`).then((res) => {
-          searchData(res, value);
-          setCurrent(1);
-          setList(null);
-        });
+        fnSearch();
       }
     }
   };
@@ -76,9 +82,9 @@ const Search = ({ searchData, setReload, setCurrent, language }) => {
             value={value}
             onChange={onSearch}
             onKeyUp={searchDoctor}
-            placeholder={placeholderLanguage[language]}
+            placeholder={languageList[language].a12}
           />
-          <button className="btn-search">
+          <button className="btn-search" onClick={fnSearch}>
             <SearchIco />
           </button>
           {visibleClose && (
