@@ -61,7 +61,7 @@ const MovieCards = () => {
     const parseQuery = parseUrl("query", "&");
     const parsePage = +parseUrl("page", "/");
 
-    if (typeof parsePage !== "number") return false;
+    if (!isNaN(parsePage) && typeof parsePage !== "number") return false;
 
     setLanguage(localStorage.getItem("language"));
 
