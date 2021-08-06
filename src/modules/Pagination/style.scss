@@ -59,19 +59,19 @@
 }
 
 .rc-pagination-item:focus, .rc-pagination-item:hover {
-  border-color: #6574cf;
+  border-color: #19980a;
   transition: all .3s
 }
 
 .rc-pagination-item:focus a, .rc-pagination-item:hover a {
-  color: #1890ff
+  color: #1fbe0e
 }
 
 .rc-pagination-item-active {
   font-weight: 500;
   color: #fff;
-  background: #6574cf;
-  border-color: #6574cf
+  background: #19980a;
+  border-color: #19980a
 }
 
 .rc-pagination-item-active a {
@@ -79,7 +79,7 @@
 }
 
 .rc-pagination-item-active:focus, .rc-pagination-item-active:hover {
-  border-color: #6574cf
+  border-color: #1fbe0e
 }
 
 .rc-pagination-item-active:focus a, .rc-pagination-item-active:hover a {
@@ -134,7 +134,7 @@
 }
 
 .rc-pagination-next:hover button, .rc-pagination-prev:hover button {
-  border-color: #40a9ff
+  border-color: #1fbe0e
 }
 
 .rc-pagination-next .rc-pagination-item-link, .rc-pagination-prev .rc-pagination-item-link {
@@ -151,8 +151,8 @@
 }
 
 .rc-pagination-next:focus .rc-pagination-item-link, .rc-pagination-next:hover .rc-pagination-item-link, .rc-pagination-prev:focus .rc-pagination-item-link, .rc-pagination-prev:hover .rc-pagination-item-link {
-  color: #1890ff;
-  border-color: #1890ff
+  color: #19980a;
+  border-color: #19980a
 }
 
 .rc-pagination-prev button:after {
@@ -246,7 +246,7 @@
 }
 
 .rc-pagination-simple .rc-pagination-simple-pager input:hover {
-  border-color: #1890ff
+  border-color: #1fc70d
 }
 
 .rc-pagination.rc-pagination-disabled {

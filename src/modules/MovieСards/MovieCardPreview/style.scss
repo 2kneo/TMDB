@@ -13,20 +13,31 @@
     padding: 20px;
 
     h3 {
-      margin: 0 0 10px;
+      margin: 0 0 20px;
     }
   }
 
   .preview-date {
     color: #999;
     font-size: 12px;
+    text-align: right;
   }
 
   .preview-footer {
-    width: 50%;
-    white-space: nowrap;
     display: flex;
+    white-space: nowrap;
     flex-wrap: nowrap;
+    align-items: center;
+  }
+
+  .col-50 {
+    flex: 50%;
+    align-items: end;
+    justify-content: end;
+  }
+
+  .p-15 {
+    padding: 0 15px;
   }
 
   h1 {
