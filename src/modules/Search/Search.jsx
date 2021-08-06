@@ -1,18 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { request } from "../../service/Service";
 import { navigate } from "hookrouter";
-import { ReactComponent as Close } from "./../../assets/close.svg";
+import { ReactComponent as CloseIco } from "./../../assets/close.svg";
+import { ReactComponent as SearchIco } from "./../../assets/search.svg";
 import { placeholderLanguage } from "./config";
 import "./style.scss";
 import { parseUrl } from "../ParseURL/ParseURL";
 
-const Search = ({ language, searchData, setReload, setCurrent }) => {
+const Search = ({ searchData, setReload, setCurrent, language }) => {
   const [value, setValue] = useState("");
   const [list, setList] = useState(null);
   const [visibleClose, setVisibleClose] = useState(false);
 
   useEffect(() => {
-    setValue(parseUrl("query", "&"));
+    setValue(parseUrl("query", "&") || "");
     setVisibleClose(true);
   }, []);
 
@@ -77,9 +78,12 @@ const Search = ({ language, searchData, setReload, setCurrent }) => {
             onKeyUp={searchDoctor}
             placeholder={placeholderLanguage[language]}
           />
+          <button className="btn-search">
+            <SearchIco />
+          </button>
           {visibleClose && (
             <div className="close" onClick={handleClose}>
-              <Close />
+              <CloseIco />
             </div>
           )}
         </div>

@@ -1,7 +1,8 @@
 import React, { useEffect, useReducer, useState } from "react";
 import MovieCardPreview from "./MovieCardPreview/MovieCardPreview";
 import Pagination from "rc-pagination";
-import localeInfo from "./../Pagination/ru_Ru";
+import ru from "./../Pagination/ru_Ru";
+import en from "./../Pagination/en_En";
 import {
   appReducer,
   initialState,
@@ -20,9 +21,9 @@ const MovieCards = () => {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const [total, setTotal] = useState(null);
   const [data, setData] = useState([]);
-  /*  const [valueSearch, setValueSearch] = useState(null);*/
   const [reload, setReload] = useState(false);
   const [current, setCurrent] = useState(1);
+  const [language, setLanguage] = useState(localStorage.getItem("language"));
 
   const fnRequest = (page) => {
     dispatch({
@@ -51,6 +52,8 @@ const MovieCards = () => {
     let url;
     const parseQuery = parseUrl("query", "&");
     const parsePage = parseUrl("page", "/");
+
+    setLanguage(localStorage.getItem("language"));
 
     if (parseQuery) {
       if (parsePage) {
@@ -82,7 +85,6 @@ const MovieCards = () => {
 
   const searchData = (data) => {
     setData(data.results);
-    /*    setValueSearch(value);*/
     setTotal(data.total_pages);
   };
 
@@ -117,12 +119,12 @@ const MovieCards = () => {
           setCurrent={setCurrent}
           setReload={reloadSearch}
           searchData={searchData}
-          language={state.language}
+          language={language}
         />
         <Language setReload={reloadSearch} />
       </div>
 
-      <MovieCardPreview data={data} />
+      <MovieCardPreview data={data} language={language} />
 
       {total ? (
         <div className="wrapper-pagination">
@@ -134,7 +136,7 @@ const MovieCards = () => {
             current={current}
             onChange={onChangePagination}
             total={total}
-            locale={localeInfo}
+            locale={language === "ru" ? ru : en}
           />
         </div>
       ) : (

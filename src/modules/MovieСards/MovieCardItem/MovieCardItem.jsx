@@ -7,13 +7,15 @@ import {
 } from "../../../contextReduser/AppReduser";
 import Loader from "../../Loader/Loader";
 import { navigate } from "hookrouter";
-import { defaultUrlImg } from "../../../config";
+import { defaultUrlImg, languageList } from "../../../config";
 import "./style.scss";
 import defaultImg from "../../../assets/noimage.jpg";
+import { parseUrl } from "../../ParseURL/ParseURL";
 
 const MovieCardItem = ({ id }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
   const [data, setData] = useState(null);
+  const language = localStorage.getItem("language");
 
   useEffect(() => {
     dispatch({
@@ -38,7 +40,32 @@ const MovieCardItem = ({ id }) => {
   }, [id]);
 
   const back = () => {
-    navigate("/", false);
+    let url = "";
+    const patch = window.location.pathname;
+    const patchPage = patch.split("page=")[1];
+    const parseQuery = parseUrl("query", "&");
+    const parsePage = parseUrl("page", "&");
+
+    if (parseQuery) {
+      url += `&query=${parseQuery}`;
+      if (patchPage) {
+        url += `&page=${patchPage}`;
+      }
+    }
+
+    if (parsePage) {
+      url += `&page=${parsePage}`;
+    }
+
+    navigate(`/${url}`, false);
+  };
+
+  const imgUrl = () => {
+    if (data.hasOwnProperty("poster_path") && data.poster_path) {
+      return defaultUrlImg + data.poster_path;
+    } else {
+      return defaultImg;
+    }
   };
 
   return (
@@ -48,20 +75,13 @@ const MovieCardItem = ({ id }) => {
       <div className="wrapper-item">
         <div className="header-item">
           <span className="btn" onClick={back}>
-            Вернутся назад
+            {languageList[language].a2}
           </span>
         </div>
         {data && (
           <div className="item">
             <div className="img">
-              <img
-                src={`${
-                  data.hasOwnProperty("poster_path")
-                    ? defaultUrlImg + data.poster_path
-                    : defaultImg
-                }`}
-                alt=""
-              />
+              <img src={imgUrl()} alt="" />
             </div>
           </div>
         )}
