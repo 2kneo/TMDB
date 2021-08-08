@@ -10,8 +10,9 @@ import { navigate } from "hookrouter";
 import { defaultUrlImg, languageList } from "../../../config";
 import "./style.scss";
 import defaultImg from "../../../assets/noimage.jpg";
-import { parseUrl } from "../../ParseURL/ParseURL";
 import { momentDate } from "../../MomentDate/MomentDate";
+import { noData } from "../../NoData/NoData";
+import { ParseURLSearch } from "../../ParseURLSearch/ParseURLSearch";
 
 const MovieCardItem = ({ id }) => {
   const [state, dispatch] = useReducer(appReducer, initialState);
@@ -25,14 +26,17 @@ const MovieCardItem = ({ id }) => {
     });
     request(`/movie/${id}`)
       .then((res) => {
-        setData(res);
         dispatch({
           type: SHOW_LOADER,
           payload: false,
         });
+        if (res.hasOwnProperty("success")) {
+          navigate(`/not-found/`, false);
+        }
+        setData(res);
       })
       .catch((err) => {
-        console.log("err", err);
+        console.error("err", err);
         dispatch({
           type: SHOW_LOADER,
           payload: false,
@@ -41,24 +45,9 @@ const MovieCardItem = ({ id }) => {
   }, [id]);
 
   const back = () => {
-    let url = "";
-    const patch = window.location.pathname;
-    const patchPage = patch.split("page=")[1];
-    const parseQuery = parseUrl("query", "&");
-    const parsePage = parseUrl("page", "&");
+    const url = ParseURLSearch();
 
-    if (parseQuery) {
-      url += `&query=${parseQuery}`;
-      if (patchPage) {
-        url += `&page=${patchPage}`;
-      }
-    }
-
-    if (parsePage) {
-      url += `&page=${parsePage}`;
-    }
-
-    navigate(`/${url}`, false);
+    navigate(`/${url}`, true);
   };
 
   const imgUrl = () => {
@@ -69,8 +58,8 @@ const MovieCardItem = ({ id }) => {
     }
   };
 
-  const listForm = useMemo(
-    () => [
+  const listForm = useMemo(() => {
+    return [
       {
         id: 1,
         title: languageList[language].a5,
@@ -84,7 +73,7 @@ const MovieCardItem = ({ id }) => {
       {
         id: 3,
         title: languageList[language].a7,
-        description: data?.genres.map((e) => e.name).join(", "),
+        description: data?.genres?.map((e) => e.name).join(", "),
       },
       {
         id: 4,
@@ -92,23 +81,22 @@ const MovieCardItem = ({ id }) => {
         description: momentDate(data, language),
       },
       {
-        id: 1,
+        id: 5,
         title: languageList[language].a9,
         description: data?.tagline,
       },
       {
-        id: 1,
+        id: 6,
         title: languageList[language].a10,
-        description: data?.production_companies.map((e) => e.name).join(", "),
+        description: data?.production_companies?.map((e) => e.name).join(", "),
       },
       {
-        id: 1,
+        id: 7,
         title: languageList[language].a11,
         description: data?.overview,
       },
-    ],
-    [data, language]
-  );
+    ];
+  }, [data]);
 
   const description = () => {
     return listForm.map(({ id, title, description }) => {
@@ -123,54 +111,26 @@ const MovieCardItem = ({ id }) => {
 
   return (
     <div>
-      {state.showLoader ? <Loader /> : null}
-
       <div className="wrapper-item">
         <div className="header-item">
           <span className="btn" onClick={back}>
             {languageList[language].a2}
           </span>
         </div>
-        {data && (
+        {state.showLoader ? (
+          <Loader />
+        ) : data && !data.hasOwnProperty("success") ? (
           <>
             <h1>{data.title}</h1>
             <div className="item">
               <div className="img">
                 <img src={imgUrl()} alt="" />
               </div>
-              <div className="text">
-                {description()}
-                {/*<p>
-                  <strong>{languageList[language].a5}</strong>
-                  {data.original_title}
-                </p>
-                <p>
-                  <strong>{languageList[language].a6}</strong>
-                  {data.original_language}
-                </p>
-                <p>
-                  <strong>{languageList[language].a7}</strong>
-                  {data.genres.map((e) => e.name).join(", ")}
-                </p>
-                <p>
-                  <strong>{languageList[language].a8}</strong>
-                  {momentDate(data, language)}
-                </p>
-                <p>
-                  <strong>{languageList[language].a9}</strong>
-                  {data.tagline}
-                </p>
-                <p>
-                  <strong>{languageList[language].a10}</strong>
-                  {data.production_companies.map((e) => e.name).join(", ")}
-                </p>
-                <p>
-                  <strong>{languageList[language].a11}</strong>
-                  {data.overview}
-                </p>*/}
-              </div>
+              <div className="text">{description()}</div>
             </div>
           </>
+        ) : (
+          noData(language)
         )}
       </div>
     </div>

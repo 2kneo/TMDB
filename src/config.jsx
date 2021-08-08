@@ -3,7 +3,7 @@ export const languageList = {
   en: {
     a1: "No data",
     a2: "Previous",
-    a3: "404 page not found",
+    a3: "Page not found",
     a4: "Previous home page",
     a5: "Original title",
     a6: "Original language",
@@ -13,11 +13,12 @@ export const languageList = {
     a10: "Companies",
     a11: "Description",
     a12: "Search",
+    a13: "To home",
   },
   ru: {
     a1: "Нет данных",
     a2: "Вернуться назад",
-    a3: "404 страница не найдена",
+    a3: "Страница не найдена",
     a4: "Вернутся на главную",
     a5: "Оригинильное название",
     a6: "Оригинильный язык",
@@ -27,5 +28,6 @@ export const languageList = {
     a10: "Компании",
     a11: "Описание",
     a12: "Поиск",
+    a13: "На главную",
   },
 };

@@ -2,7 +2,7 @@ import React, { createContext, useEffect, useReducer } from "react";
 import MovieCards from "../../modules/MovieСards/MovieCards";
 import { appReducer, initialState } from "../../contextReduser/AppReduser";
 import MovieCardItem from "../../modules/MovieСards/MovieCardItem/MovieCardItem";
-import NotFound from "../NotFound";
+import NotFound from "../NotFound/NotFound";
 import { useRoutes } from "hookrouter";
 
 export const AppContext = createContext({});

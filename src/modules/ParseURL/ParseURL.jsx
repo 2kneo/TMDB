@@ -3,5 +3,6 @@ export const parseUrl = (el, separator = "/") => {
     window.location.pathname.split(separator)[1]
   );
   const paramsDefault = Object.fromEntries(urlParamsDefault.entries());
+
   return paramsDefault[el];
 };

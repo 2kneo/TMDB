@@ -4,7 +4,7 @@ import { parseUrl } from "../../ParseURL/ParseURL";
 import { momentDate } from "../../MomentDate/MomentDate";
 import { navigate } from "hookrouter";
 import defaultImg from "./../../../assets/noimage.jpg";
-import { defaultUrlImg, languageList } from "../../../config";
+import { defaultUrlImg } from "../../../config";
 import "./style.scss";
 
 const MovieCardPreview = ({ data, language }) => {
@@ -21,7 +21,7 @@ const MovieCardPreview = ({ data, language }) => {
       url += `&page=${parsePage}`;
     }
 
-    navigate(url, false);
+    navigate(url, true);
   };
 
   const imgUrl = (e) => {
@@ -30,10 +30,6 @@ const MovieCardPreview = ({ data, language }) => {
     } else {
       return defaultImg;
     }
-  };
-
-  const message = () => {
-    return languageList[language].a1;
   };
 
   const addItem = () => {
@@ -65,11 +61,7 @@ const MovieCardPreview = ({ data, language }) => {
 
   return (
     <>
-      {data && data.length ? (
-        <div className="wrapper-movie">{addItem()}</div>
-      ) : (
-        message()
-      )}
+      <div className="wrapper-movie">{addItem()}</div>
     </>
   );
 };

@@ -7,7 +7,5 @@ export const momentDate = (data, language) => {
     return moment(data.release_date)
       .locale(language === "ru" ? "ru" : "en-ca")
       .format("DD MMMM YYYY");
-  } else {
-    console.log(false);
   }
 };
