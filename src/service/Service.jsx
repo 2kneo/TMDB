@@ -4,6 +4,7 @@ export const request = (url) => {
   let language;
   const localLanguage = localStorage.getItem("language") || "ru";
   const myHeaders = new Headers();
+
   myHeaders.append(
     "Authorization",
     "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiI0M2MwY2Q4ZDZlMDY3MmY5YzFjNTM5MDdjOTQzY2MzOCIsInN1YiI6IjYxMDk0ZjU2YzYxM2NlMDA3ZjdkMGFjYiIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.mbaI8EathUd4PQiFL1D_AnYB15_F_RMELOg2h-AqEgo"
@@ -15,6 +16,7 @@ export const request = (url) => {
   Object.keys(params).length
     ? (language = `&language=${localLanguage}`)
     : (language = `?language=${localLanguage}`);
+
   const requestOptions = {
     method: "GET",
     headers: myHeaders,

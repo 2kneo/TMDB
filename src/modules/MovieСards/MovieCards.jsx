@@ -111,6 +111,7 @@ const MovieCards = () => {
       setCurrent(current);
     } else {
       if (current !== 1) navigateUrl += `&page=${current}`;
+
       url += `/movie/top_rated?page=${current}`;
       setCurrent(current);
     }
