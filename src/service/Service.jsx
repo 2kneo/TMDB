@@ -23,8 +23,6 @@ export const request = (url) => {
     redirect: "follow",
   };
 
-  console.log("1");
-
   return fetch(`${defaultURL}${url}${language}`, requestOptions)
     .then((response) => response.json())
     .then((result) => result)
