@@ -25,7 +25,9 @@ const MovieCards = () => {
   const [data, setData] = useState([]);
   const [reload, setReload] = useState(false);
   const [current, setCurrent] = useState(1);
-  const [language, setLanguage] = useState(localStorage.getItem("language"));
+  const [language, setLanguage] = useState(
+    localStorage.getItem("language") || "ru"
+  );
 
   const fnRequest = (page) => {
     dispatch({
