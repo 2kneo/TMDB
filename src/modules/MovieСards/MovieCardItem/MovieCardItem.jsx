@@ -63,37 +63,38 @@ const MovieCardItem = ({ id }) => {
       {
         id: 1,
         title: languageList[language].a5,
-        description: data?.original_title,
+        description: data?.original_title || "-",
       },
       {
         id: 2,
         title: languageList[language].a6,
-        description: data?.original_language,
+        description: data?.original_language || "-",
       },
       {
         id: 3,
         title: languageList[language].a7,
-        description: data?.genres?.map((e) => e.name).join(", "),
+        description: data?.genres?.map((e) => e.name).join(", ") || "-",
       },
       {
         id: 4,
         title: languageList[language].a8,
-        description: momentDate(data, language),
+        description: momentDate(data, language) || "-",
       },
       {
         id: 5,
         title: languageList[language].a9,
-        description: data?.tagline,
+        description: data?.tagline || "-",
       },
       {
         id: 6,
         title: languageList[language].a10,
-        description: data?.production_companies?.map((e) => e.name).join(", "),
+        description:
+          data?.production_companies?.map((e) => e.name).join(", ") || "-",
       },
       {
         id: 7,
         title: languageList[language].a11,
-        description: data?.overview,
+        description: data?.overview || "-",
       },
     ];
   }, [data]);
