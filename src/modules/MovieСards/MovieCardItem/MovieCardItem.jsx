@@ -19,45 +19,6 @@ const MovieCardItem = ({ id }) => {
   const [data, setData] = useState(null);
   const language = localStorage.getItem("language");
 
-  useEffect(() => {
-    dispatch({
-      type: SHOW_LOADER,
-      payload: true,
-    });
-    request(`/movie/${id}`)
-      .then((res) => {
-        dispatch({
-          type: SHOW_LOADER,
-          payload: false,
-        });
-        if (res.hasOwnProperty("success")) {
-          navigate(`/not-found/`, false);
-        }
-        setData(res);
-      })
-      .catch((err) => {
-        console.error("err", err);
-        dispatch({
-          type: SHOW_LOADER,
-          payload: false,
-        });
-      });
-  }, [id]);
-
-  const back = () => {
-    const url = ParseURLSearch();
-
-    navigate(`/${url}`, true);
-  };
-
-  const imgUrl = () => {
-    if (data.hasOwnProperty("poster_path") && data.poster_path) {
-      return defaultUrlImg + data.poster_path;
-    } else {
-      return defaultImg;
-    }
-  };
-
   const listForm = useMemo(() => {
     return [
       {
@@ -98,6 +59,45 @@ const MovieCardItem = ({ id }) => {
       },
     ];
   }, [data]);
+
+  useEffect(() => {
+    dispatch({
+      type: SHOW_LOADER,
+      payload: true,
+    });
+
+    request(`/movie/${id}`)
+      .then((res) => {
+        dispatch({
+          type: SHOW_LOADER,
+          payload: false,
+        });
+        if (res.hasOwnProperty("success")) {
+          navigate(`/not-found/`, false);
+        }
+        setData(res);
+      })
+      .catch((err) => {
+        console.error("err", err);
+        dispatch({
+          type: SHOW_LOADER,
+          payload: false,
+        });
+      });
+  }, [id]);
+
+  const back = () => {
+    const url = ParseURLSearch();
+    navigate(`/${url}`, true);
+  };
+
+  const imgUrl = () => {
+    if (data.hasOwnProperty("poster_path") && data.poster_path) {
+      return defaultUrlImg + data.poster_path;
+    } else {
+      return defaultImg;
+    }
+  };
 
   const description = () => {
     return listForm.map(({ id, title, description }) => {
